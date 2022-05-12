@@ -75,14 +75,13 @@ Type /{BotCommands.HelpCommand} to get a list of available commands
     else:
         if BOT_PM:
             message = sendMessage(f'Dear {uname},\n\nIf You Want To Use Me, You Have To Join @{CHANNEL_USERNAME}\n\n<b>NOTE:</b> All The Uploaded Links and Leeched Files By You Will Be Sent Here In Your Private Chat From Now.', context.bot, update)
-            Thread(target=auto_delete_message, args=(context.bot, update.message, message)).start()
-            return
         else:
             message = sendMarkup(
                 f'Dear {uname},\n\nIf You Want To Use Me, You Have To Join @{CHANNEL_USERNAME}\n\n',
                 context.bot, update, reply_markup)
-            Thread(target=auto_delete_message, args=(context.bot, update.message, message)).start()
-            return
+
+        Thread(target=auto_delete_message, args=(context.bot, update.message, message)).start()
+        return
 def restart(update, context):
     restart_message = sendMessage("Restarting...", context.bot, update)
     if Interval:
@@ -287,9 +286,9 @@ def main():
         osremove(".restartmsg")
     elif OWNER_ID:
         try:
-            text = "<b>Bot Restarted!</b>"
-            message = bot.sendMessage(chat_id=OWNER_ID, text=text, parse_mode=ParseMode.HTML)
             if AUTHORIZED_CHATS:
+                text = "<b>Bot Restarted!</b>"
+                message = bot.sendMessage(chat_id=OWNER_ID, text=text, parse_mode=ParseMode.HTML)
                 for i in AUTHORIZED_CHATS:
                     bot.sendMessage(chat_id=i, text=text, parse_mode=ParseMode.HTML)
         except Exception as e:
